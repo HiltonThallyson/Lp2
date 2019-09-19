@@ -28,8 +28,9 @@ public abstract class ContaBancaria {
     }
 
     //Métodos Públicos
-    public abstract void sacar(double value);
-    public abstract void depositar (double value);
+    public abstract boolean sacar(double value);
+    public abstract boolean depositar (double value);
+    public abstract boolean tranfesrir(double value, ContaBancaria conta);
 
 
 }

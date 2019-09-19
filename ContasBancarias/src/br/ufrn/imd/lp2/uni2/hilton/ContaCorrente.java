@@ -25,25 +25,38 @@ public class ContaCorrente extends ContaBancaria implements Imprimivel{
     }
 
     @Override
-    public void sacar(double value) {
+    public boolean sacar(double value) {
         if(value > (this.getSaldo()-taxaDeOperação)){
             System.out.println("Saldo insuficiente!");
-            return;
+            return false;
         }else{
             this.setSaldo(getSaldo()-value-taxaDeOperação);
-            System.out.println("Saque realizado com sucesso! Saldo atual: " + this.getSaldo());
-            return;
+            System.out.println("Saque realizado com sucesso!");
+            return true;
         }
     }
 
     @Override
-    public void depositar(double value) {
+    public boolean depositar(double value) {
         if(this.taxaDeOperação > (value) + this.getSaldo()){
             System.out.println("Depósito não realizado!");
+            return false;
         }else {
             this.setSaldo(this.getSaldo() + value - this.getTaxaDeOperação());
-            System.out.println("Depósito realizado com sucesso! Saldo : " + this.getSaldo());
+            System.out.println("Depósito realizado com sucesso!");
+            return true;
         }
+    }
+
+    @Override
+    public boolean tranfesrir(double value, ContaBancaria conta) {
+        if(this.sacar(value)){
+            conta.depositar(value);
+            System.out.println("Transferência realizada com sucesso!");
+            return true;
+        }
+        System.out.println("Transfêrencia não realizada! Saldo insuficiente.");
+        return false;
     }
 
     @Override

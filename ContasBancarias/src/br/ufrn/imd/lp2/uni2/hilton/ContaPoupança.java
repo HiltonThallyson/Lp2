@@ -20,21 +20,36 @@ public class ContaPoupança extends ContaBancaria implements Imprimivel{
     }
     //Métodos públicos
     @Override
-    public void sacar(double value) {
+    public boolean sacar(double value) {
         if(value > (this.getSaldo()+this.getLimite())){
             System.out.println("Impossível realizar o saque! Valor excede o limite");
+            return false;
         }else if(value <= this.getSaldo()) {
             this.setSaldo(this.getSaldo() - value);
         }else{
             this.setSaldo(this.getSaldo()-value);
             this.setLimite(this.getLimite() + this.getSaldo());
         }
+        System.out.println("Saldo realizado com sucesso!");
+        return true;
     }
 
     @Override
-    public void depositar(double value) {
+    public boolean depositar(double value) {
         this.setSaldo(this.getSaldo() + value);
-        System.out.println("Depósito realizado com sucesso! Saldo : " + this.getSaldo());
+        System.out.println("Depósito realizado com sucesso!");
+        return true;
+    }
+
+    @Override
+    public boolean tranfesrir(double value, ContaBancaria conta) {
+        if(this.sacar(value)){
+            conta.depositar(value);
+            System.out.println("Transferência realizada com sucesso!");
+            return true;
+        }
+        System.out.println("Transfêrencia não realizada! Saldo insuficiente.");
+        return false;
     }
 
     @Override
